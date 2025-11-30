@@ -66,7 +66,8 @@ class _RegisterState extends State<Register> {
 
   // ====== GET AREAS API (based on divisionID) ======
   Future<void> fetchAreaData(int divisionId) async {
-    final url = Uri.parse("http://192.168.0.190:8000/get_areas/$divisionId/");
+    final url = Uri.parse(
+        urls.baseUrl + urls.areaUrl + urls.slash + divisionId.toString());
     final res = await http.get(url);
 
     if (res.statusCode == 200) {
@@ -82,8 +83,12 @@ class _RegisterState extends State<Register> {
 
 // ---------------- Fetch Branches ----------------
   Future<void> fetchBranches(int divisionId, int areaId) async {
-    final url =
-        Uri.parse("http://192.168.0.190:8000/get_branches/$divisionId/$areaId");
+    final url = Uri.parse(urls.baseUrl +
+        urls.branchUrl +
+        urls.slash +
+        divisionId.toString() +
+        urls.slash +
+        areaId.toString());
     final res = await http.get(url);
 
     if (res.statusCode == 200) {
@@ -97,7 +102,7 @@ class _RegisterState extends State<Register> {
 
 // Fetch API Data
   Future<void> fetchCountrynData() async {
-    final url = Uri.parse("http://192.168.0.190:8000/get_country/");
+    final url = Uri.parse(urls.baseUrl + urls.countryUrl);
     final res = await http.get(url);
 
     if (res.statusCode == 200) {

@@ -1,9 +1,10 @@
 class URLS {
   String base_url = "http://192.168.0.190:8000/";
-  String area_url = "get_division";
+  String area_url = "get_areas";
   String division_url = "get_division";
   String branch_url = "get_branches";
   String country_url = "get_country";
+  String slash = "/";
 
   String get baseUrl => base_url;
   set baseUrl(String value) => base_url = value;
@@ -19,4 +20,7 @@ class URLS {
 
   String get countryUrl => country_url;
   set countryUrl(String value) => country_url = value;
+
+  String get slashUrl => slash;
+  set slashUrl(String value) => slash = value;
 }
