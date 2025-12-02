@@ -4,6 +4,9 @@ class URLS {
   String division_url = "get_division";
   String branch_url = "get_branches";
   String country_url = "get_country";
+  String bar_association_url = "get_member_bar_association";
+  String type_of_application_url = "get_type_of_application";
+  String type_of_post_url = "get_type_of_post";
   String slash = "/";
 
   String get baseUrl => base_url;
@@ -23,4 +26,13 @@ class URLS {
 
   String get slashUrl => slash;
   set slashUrl(String value) => slash = value;
+
+  String get barAssociationUrl => bar_association_url;
+  set barAssociationUrl(String value) => bar_association_url = value;
+
+  String get typeOfApplicationUrl => type_of_application_url;
+  set typeOfApplicationUrl(String value) => type_of_application_url = value;
+
+  String get typeOfPostUrl => type_of_post_url;
+  set typeOfPostUrl(String value) => type_of_post_url = value;
 }

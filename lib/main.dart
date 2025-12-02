@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'OLMIS Automation'),
     );
   }
 }
@@ -65,8 +65,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(top: 10.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Image.asset(
+                    "assets/images/logo.png",
+                    width: 150,
+                    height: 150,
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
+              ),
+            ),
             //Text and button page - button
             Container(
               margin: const EdgeInsets.only(top: 10.0),
@@ -79,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Register()));
                     },
-                    child: const Text("Text and Button"),
+                    child: const Text("Register"),
                   ),
                 ),
               ),
