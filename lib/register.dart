@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'models/division.dart';
 import 'models/area.dart';
 import 'models/branch.dart';
@@ -65,6 +66,9 @@ class _RegisterState extends State<Register> {
   final TextEditingController highestEducation = TextEditingController();
   final TextEditingController codiceFiscale = TextEditingController();
   final TextEditingController hoInwardNo = TextEditingController();
+
+  File? selectedImage;
+  final ImagePicker picker = ImagePicker();
 
   URLS urls = URLS();
 
@@ -244,81 +248,184 @@ class _RegisterState extends State<Register> {
   }
 
 //----------Registration post-----------
+  // Future<void> submitForm() async {
+  //   final url = Uri.parse("http://192.168.0.190:8000/api/register/");
+
+  //   // Flutter → JSON Body
+  //   final body = {
+  //     "division_id": selectedDivision?.divisionId,
+  //     "area_id": selectedArea?.areaId,
+  //     "branch_id": selectedBranch?.branchId,
+
+  //     "country": selectedCountry?.nameCountry,
+  //     "type_of_application": selectedTypeOfApplication?.applicationType,
+  //     "type_of_post": selectedTypeOfPost?.postType,
+  //     "member_of_bar_association":
+  //         selectedBarAssociation?.name_member_of_bar_association,
+
+  //     "name_english": nameEng.text,
+  //     "name_bangla": nameBan.text,
+
+  //     "bar_council_passing_year": barCouncilPassingYear.text,
+  //     "bar_council_certificate_no": barCouncilCertNo.text,
+
+  //     "year_permission_practice_high_court": permissionHighCourtYear.text,
+  //     "bar_association_membership_no": barMembershipNo.text,
+
+  //     "bar_at_law": barAtLaw.text,
+
+  //     "address_present_english": addrPresentEng.text,
+  //     "address_present_bangla": addrPresentBan.text,
+
+  //     "address_permanent_english": addrPermanentEng.text,
+  //     "address_permanent_bangla": addrPermanentBan.text,
+
+  //     "address_court_chamber_english": chamberCourtEng.text,
+  //     "address_court_chamber_bangla": chamberCourtBan.text,
+
+  //     "address_personal_chamber_english": chamberPersonalEng.text,
+  //     "address_personal_chamber_bangla": chamberPersonalBan.text,
+
+  //     "email": emailField.text,
+  //     "mobile": mobileField.text,
+  //     "nid": nidField.text,
+
+  //     "experiences": experiences.text,
+  //     "other_academic_qualifications": otherAcademic.text,
+
+  //     "passport_no": passportField.text,
+  //     "passport_expiry_date":
+  //         convertToYMD(_expiryDateController.text), // DD-MM-YYYY
+
+  //     "overseas_national_id": overseasId.text,
+  //     "diploma_or_professional_degree": diploma.text,
+
+  //     "other_training": training.text,
+
+  //     "date_of_birth": convertToYMD(_dateOfBirthController.text), // DD-MM-YYYY
+  //     "application_session": convertToYMD(_applicationSessionController.text),
+
+  //     "highest_education": highestEducation.text,
+  //     "codice_fiscale": codiceFiscale.text,
+  //     "document_ho_inward_no": hoInwardNo.text,
+  //   };
+
+  //   try {
+  //     final response = await http.post(
+  //       url,
+  //       headers: {"Content-Type": "application/json"},
+  //       body: jsonEncode(body),
+  //     );
+
+  //     final resData = jsonDecode(response.body);
+
+  //     if (response.statusCode == 200 && resData["success"] == true) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(content: Text("Registration Successful!")),
+  //       );
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text("Error: ${resData["error"]}")),
+  //       );
+  //     }
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text("Exception: $e")),
+  //     );
+  //   }
+  // }
+
   Future<void> submitForm() async {
     final url = Uri.parse("http://192.168.0.190:8000/api/register/");
 
-    // Flutter → JSON Body
-    final body = {
-      "division_id": selectedDivision?.divisionId,
-      "area_id": selectedArea?.areaId,
-      "branch_id": selectedBranch?.branchId,
-
-      "country": selectedCountry?.nameCountry,
-      "type_of_application": selectedTypeOfApplication?.applicationType,
-      "type_of_post": selectedTypeOfPost?.postType,
-      "member_of_bar_association":
-          selectedBarAssociation?.name_member_of_bar_association,
-
-      "name_english": nameEng.text,
-      "name_bangla": nameBan.text,
-
-      "bar_council_passing_year": barCouncilPassingYear.text,
-      "bar_council_certificate_no": barCouncilCertNo.text,
-
-      "year_permission_practice_high_court": permissionHighCourtYear.text,
-      "bar_association_membership_no": barMembershipNo.text,
-
-      "bar_at_law": barAtLaw.text,
-
-      "address_present_english": addrPresentEng.text,
-      "address_present_bangla": addrPresentBan.text,
-
-      "address_permanent_english": addrPermanentEng.text,
-      "address_permanent_bangla": addrPermanentBan.text,
-
-      "address_court_chamber_english": chamberCourtEng.text,
-      "address_court_chamber_bangla": chamberCourtBan.text,
-
-      "address_personal_chamber_english": chamberPersonalEng.text,
-      "address_personal_chamber_bangla": chamberPersonalBan.text,
-
-      "email": emailField.text,
-      "mobile": mobileField.text,
-      "nid": nidField.text,
-
-      "experiences": experiences.text,
-      "other_academic_qualifications": otherAcademic.text,
-
-      "passport_no": passportField.text,
-      "passport_expiry_date":
-          convertToYMD(_expiryDateController.text), // DD-MM-YYYY
-
-      "overseas_national_id": overseasId.text,
-      "diploma_or_professional_degree": diploma.text,
-
-      "other_training": training.text,
-
-      "date_of_birth": convertToYMD(_dateOfBirthController.text), // DD-MM-YYYY
-      "application_session": convertToYMD(_applicationSessionController.text),
-
-      "highest_education": highestEducation.text,
-      "codice_fiscale": codiceFiscale.text,
-      "document_ho_inward_no": hoInwardNo.text,
-    };
-
     try {
-      final response = await http.post(
-        url,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(body),
-      );
+      var request = http.MultipartRequest("POST", url);
 
-      final resData = jsonDecode(response.body);
+      // ----------- IMAGE FILE -------------
+      if (selectedImage != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            "photo_filename",
+            selectedImage!.path,
+          ),
+        );
+      }
+
+      // ----------- NORMAL TEXT FIELDS -------------
+      request.fields["division_id"] =
+          selectedDivision?.divisionId.toString() ?? "";
+      request.fields["area_id"] = selectedArea?.areaId.toString() ?? "";
+      request.fields["branch_id"] = selectedBranch?.branchId.toString() ?? "";
+
+      request.fields["country"] = selectedCountry?.nameCountry ?? "";
+      request.fields["type_of_application"] =
+          selectedTypeOfApplication?.applicationType ?? "";
+      request.fields["type_of_post"] = selectedTypeOfPost?.postType ?? "";
+      request.fields["member_of_bar_association"] =
+          selectedBarAssociation?.name_member_of_bar_association ?? "";
+
+      request.fields["name_english"] = nameEng.text;
+      request.fields["name_bangla"] = nameBan.text;
+
+      request.fields["bar_council_passing_year"] = barCouncilPassingYear.text;
+      request.fields["bar_council_certificate_no"] = barCouncilCertNo.text;
+
+      request.fields["year_permission_practice_high_court"] =
+          permissionHighCourtYear.text;
+      request.fields["bar_association_membership_no"] = barMembershipNo.text;
+
+      request.fields["bar_at_law"] = barAtLaw.text;
+
+      request.fields["address_present_english"] = addrPresentEng.text;
+      request.fields["address_present_bangla"] = addrPresentBan.text;
+
+      request.fields["address_permanent_english"] = addrPermanentEng.text;
+      request.fields["address_permanent_bangla"] = addrPermanentBan.text;
+
+      request.fields["address_court_chamber_english"] = chamberCourtEng.text;
+      request.fields["address_court_chamber_bangla"] = chamberCourtBan.text;
+
+      request.fields["address_personal_chamber_english"] =
+          chamberPersonalEng.text;
+      request.fields["address_personal_chamber_bangla"] =
+          chamberPersonalBan.text;
+
+      request.fields["email"] = emailField.text;
+      request.fields["mobile"] = mobileField.text;
+      request.fields["nid"] = nidField.text;
+
+      request.fields["experiences"] = experiences.text;
+      request.fields["other_academic_qualifications"] = otherAcademic.text;
+
+      request.fields["passport_no"] = passportField.text;
+      request.fields["passport_expiry_date"] =
+          convertToYMD(_expiryDateController.text);
+
+      request.fields["overseas_national_id"] = overseasId.text;
+      request.fields["diploma_or_professional_degree"] = diploma.text;
+
+      request.fields["other_training"] = training.text;
+
+      request.fields["date_of_birth"] =
+          convertToYMD(_dateOfBirthController.text);
+      request.fields["application_session"] =
+          convertToYMD(_applicationSessionController.text);
+
+      request.fields["highest_education"] = highestEducation.text;
+      request.fields["codice_fiscale"] = codiceFiscale.text;
+      request.fields["document_ho_inward_no"] = hoInwardNo.text;
+
+      // ----------- SEND REQUEST -------------
+      var response = await request.send();
+      var responseBody = await response.stream.bytesToString();
+      var resData = jsonDecode(responseBody);
 
       if (response.statusCode == 200 && resData["success"] == true) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Registration Successful!")),
         );
+
+        // clearAllFields();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Error: ${resData["error"]}")),
@@ -329,6 +436,64 @@ class _RegisterState extends State<Register> {
         SnackBar(content: Text("Exception: $e")),
       );
     }
+  }
+
+  //--------Image Selection----------
+  Future<void> pickImage() async {
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {
+        selectedImage = File(image.path);
+      });
+    }
+  }
+
+  void clearAllFields() {
+    nameEng.clear();
+    nameBan.clear();
+    barCouncilPassingYear.clear();
+    barCouncilCertNo.clear();
+    permissionHighCourtYear.clear();
+    barMembershipNo.clear();
+    addrPresentEng.clear();
+    addrPresentBan.clear();
+    addrPermanentEng.clear();
+    addrPermanentBan.clear();
+    barAtLaw.clear();
+    chamberCourtEng.clear();
+    chamberCourtBan.clear();
+    chamberPersonalEng.clear();
+    chamberPersonalBan.clear();
+    emailField.clear();
+    mobileField.clear();
+    nidField.clear();
+    experiences.clear();
+    otherAcademic.clear();
+    passportField.clear();
+    overseasId.clear();
+    diploma.clear();
+    training.clear();
+    highestEducation.clear();
+    codiceFiscale.clear();
+    hoInwardNo.clear();
+
+    _expiryDateController.clear();
+    _dateOfBirthController.clear();
+    _applicationSessionController.clear();
+
+    // Dropdown reset
+    selectedDivision = null;
+    selectedArea = null;
+    selectedBranch = null;
+    selectedCountry = null;
+    selectedBarAssociation = null;
+    selectedTypeOfApplication = null;
+
+    areaList.clear();
+    branchList.clear();
+
+    setState(() {});
   }
 
   @override
@@ -813,12 +978,41 @@ class _RegisterState extends State<Register> {
                   setState(() => selectedTypeOfPost = value);
                 },
               ),
+              const SizedBox(height: 20),
+              const Text("Select Image"),
+              //----Photo Upload UI--------
+              Row(
+                children: [
+                  // ------- Browse Button -------
+                  ElevatedButton(
+                    onPressed: pickImage,
+                    child: Text("Browse"),
+                  ),
+
+                  SizedBox(width: 16),
+
+                  // ------- Image Preview -------
+                  Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                    ),
+                    child: selectedImage == null
+                        ? Center(child: Text("No Image"))
+                        : Image.file(selectedImage!, fit: BoxFit.cover),
+                  ),
+                ],
+              ),
 
               const SizedBox(height: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50)),
-                onPressed: submitForm,
+                onPressed: () async {
+                  await submitForm();
+                  // clearAllFields();
+                },
                 child: const Text("Submit"),
               ),
 
