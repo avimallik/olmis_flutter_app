@@ -1,5 +1,6 @@
 class URLS {
   String base_url = "http://192.168.0.190:8000/";
+  String register_url = "api/register/";
   String area_url = "get_areas";
   String division_url = "get_division";
   String branch_url = "get_branches";
@@ -35,4 +36,7 @@ class URLS {
 
   String get typeOfPostUrl => type_of_post_url;
   set typeOfPostUrl(String value) => type_of_post_url = value;
+
+  String get registerUrl => register_url;
+  set registerUrl(String value) => register_url = value;
 }

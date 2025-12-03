@@ -336,7 +336,7 @@ class _RegisterState extends State<Register> {
   // }
 
   Future<void> submitForm() async {
-    final url = Uri.parse("http://192.168.0.190:8000/api/register/");
+    final url = Uri.parse(urls.baseUrl + urls.registerUrl);
 
     try {
       var request = http.MultipartRequest("POST", url);
@@ -424,7 +424,6 @@ class _RegisterState extends State<Register> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Registration Successful!")),
         );
-
         // clearAllFields();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
