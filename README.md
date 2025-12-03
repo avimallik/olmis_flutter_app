@@ -1,24 +1,22 @@
-# OLMIS: Online Lawyer Management Information System
+# OLMIS Flutter App
 
-OLMIS (Online Lawyer Management Information System) is Django application designed to register the Lawyers and other applicants to the Janata Bank PLC. Built using Django (Python), Oracle Database, and Bootstrap.
+OLMIS (Online Lawyer Management Information System) or OLMIS Automation is a Flutter application designed to register the Lawyers and other applicants to the Janata Bank PLC and Detect the Hazard activity in bank thorugh IoT Sensor Fusion Protocol. Built using Dart and Flutter framework.
 
 ## 🏗️ Instruction video
-[🔵▶️ Click to Play](https://drive.google.com/file/d/1qq1XheHXyOzYjqSc8q0V99oYfzCcOCBL/preview)
+[🔵▶️ Click to Play](https://drive.google.com/file/d/1Pc9EY3tzF3oX01g7cFktkBn-o2d9Me1S/preview)
 
 ---
 
 ## 🚀 Features
 
 - **Lawyer Registration:** Comprehensive form with dependent dropdowns for Division, Branch, Area, Country, and Bar 
-- **API Integration:** Added seamless REST API for flutter application
+- **Hazard Detection:** Detect LPG, Methane, Propane, Natural Gas and Coal Gas concentration using MQ2 and MQ3 sensor and read sensor feedback from NodeMCU/Sim900-GPRS/GSM/GSM-IoT platform
 
 ---
 
 ## 🏗️ Technologies Used
 
-- **Backend:** Python, Django, Oracle
-- **Database:** SQL
-- **Frontend:** HTML, Bootstrap 5, JavaScript (jQuery for dependent dropdowns)
+- **Backend/Frontend:** Dart, Flutter SDK
 
 ---
 
@@ -26,37 +24,15 @@ OLMIS (Online Lawyer Management Information System) is Django application design
 
 1. **Clone the Repository:**
     ```bash
-    git clone https://github.com/avimallik/olms_lawyers_registration_django_oracle.git
-    cd olms
+    git clone https://github.com/avimallik/olmis_flutter_app.git
+    
     ```
 
-2. **Set Up Virtual Environment (Optional but Recommended):**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    ```
-
-3. **Configure Database Connection:**
-    - In `setting.py` , set your SQL credentials in DATABASES section:
-      ```python
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'localhost:1521/orclpdb',
-        'USER': 'django_user',
-        'PASSWORD': 'django_pass',
-      ```
-
-4. **Run the Application:**
+2. **Run the Application:**
     ```VS Code Terminal
-    cd olms_registration
-    python manage.py runserver 0.0.0.0:8000 
+    flutter pub get
+    flutter run
     ```
-
-    ```CMD
-    ipconfig
-    IPv4 Address. . . . . . . . . . . : 192.XXX.0.XXX [Based on your IP]
-    ```
-    - The app will run at [http://192.XXX.0.XXX:8000/]
-
 ---
 
 
